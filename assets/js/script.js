@@ -21,9 +21,9 @@ function startTimer(){
         showNextSlide(); 
 }
 
-function my() { 
+function myScore() { 
     var x = document.getElementById("tt").value;
-    document.getElementById("demo").innerHTML = x;
+    document.getElementById("demo").textContent = x + ", Please see you score below";
 }
 
 // to build the quiz that is displayed to the user 
@@ -97,7 +97,7 @@ function showResults(){
 
     resultsElement.textContent = `${numCorrect} out of ${quizQuestions.length}`;
 
-    my(); 
+    //my(); 
 }
 
    
@@ -110,15 +110,18 @@ function showSlide(n) {
         document.getElementById("next").disabled = true;
         nextButton.style.display = 'none'; 
         previousButton.style.display = 'none';
+        submitNameButton.style.display = 'none'; 
         
     }
     else{
         document.getElementById("next").disabled = false;
         previousButton.style.display = 'inline-block';
         startButton.style.display ='none'
+
     }
     if(currentSlide === slides.length-1){
         nextButton.style.display = 'none';
+        submitNameButton.style.display = 'inline-block'
         submitButton.style.display = 'inline-block';
     }
     else{
@@ -179,6 +182,7 @@ const quizQuestions = [
 const quizElement = document.getElementById('quiz');
 const resultsElement = document.getElementById('results');
 const submitButton = document.getElementById('submit');
+const submitNameButton = document.getElementById('submit-name');
 
 // call the buildQuiz function to be displayed on the webpage 
 buildQuiz();
