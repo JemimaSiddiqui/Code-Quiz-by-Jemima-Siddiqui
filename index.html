@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <title>Code Quiz Challenge</title>
+        <meta charset="UTF-8"./>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+    </head>
+
+    <body>
+        <h1>Code Quiz Challenge</h1>
+        <div class = "start-page">
+            <h2>Test your knowledge: Introduction to JavaScript</h2>
+            <button id="start">Start</button>
+            <div id="countdown"></div>
+        </div>
+        <div class="quiz-container">
+            <div id="quiz"></div>
+        </div>
+        <button id="previous">Previous Question</button>
+        <button id="next">Next Question</button>
+        <button id="submit">Submit Quiz</button>
+        <p id="demo"></p>
+        <form method="POST">
+            <p> Please enter your name before submitting the quiz. </p>
+            <input type="text" id="tt" placeholder="Enter Name : ">
+            <input type="checkbox" checked>
+        </form>
+        <div id="results"></div>
+        <script src="assets/js/script.js"></script>
+    </body>
+</html>
