@@ -1,6 +1,7 @@
-function startTimer(){ 
 
-    var timeleft = 15;
+function startTimer(){ 
+    var time = 15; 
+    localStorage.setItem("timeLeft", time); 
     
         var downloadTimer = setInterval(function function1(){
         document.getElementById("countdown").textContent = timeleft + " " + "seconds remaining";
@@ -22,8 +23,14 @@ function startTimer(){
 }
 
 function myScore() { 
+    var myQuizScore = localStorage.getItem("myQuizScore");
+    var numQuestions = localStorage.getItem("numQuestions");
     var x = document.getElementById("tt").value;
-    document.getElementById("demo").textContent = x + ", Please see you score below";
+    document.getElementById("demo").textContent = x + ", your score is: " + myQuizScore + " out of " + numQuestions;
+}
+
+function clearHighScore() {
+    document.getElementById("demo").textContent = " ";
 }
 
 // to build the quiz that is displayed to the user 
@@ -87,17 +94,21 @@ function showResults(){
         if(userAnswer === currentQuestion.correctAnswer){
             // add to the number of correct answers
             numCorrect++;
-            resultsElement.textContent = 'correct'; 
+            //resultsElement.textContent = 'correct'; 
         }
         // if answer is wrong or blank
         else if (userAnswer !== currentQuestion.correctAnswer){
-            resultsElement.textContent = 'incorrect'; 
+            //resultsElement.textContent = 'incorrect'; 
+            /*var timeLeft = localStorage.getItem("timeLeft"); 
+            timeLeft = timeLeft - 2; 
+            startTimer(timeLeft);*/ 
         }
     });
 
-    resultsElement.textContent = `${numCorrect} out of ${quizQuestions.length}`;
 
-    //my(); 
+    localStorage.setItem("myQuizScore", numCorrect); 
+    localStorage.setItem("numQuestions", quizQuestions.length); 
+    resultsElement.textContent = `Score: ${numCorrect} out of ${quizQuestions.length}`;
 }
 
    
@@ -106,27 +117,34 @@ function showSlide(n) {
     slides[currentSlide].classList.remove('active-slide');
     slides[n].classList.add('active-slide');
     currentSlide = n;
+    // first slide 
     if(currentSlide === 0){
-        document.getElementById("next").disabled = true;
+        //document.getElementById("next").disabled = true;
         nextButton.style.display = 'none'; 
         previousButton.style.display = 'none';
         submitNameButton.style.display = 'none'; 
-        
+        submitButton.style.display = 'none'; 
+        goBackButton.style.display = 'none'; 
+        clearScoreButton.style.display = 'none'; 
     }
-    else{
-        document.getElementById("next").disabled = false;
-        previousButton.style.display = 'inline-block';
-        startButton.style.display ='none'
-
-    }
-    if(currentSlide === slides.length-1){
+    //last slide 
+    else if(currentSlide === slides.length-1){
+        startButton.style.display = 'none'; 
         nextButton.style.display = 'none';
         submitNameButton.style.display = 'inline-block'
         submitButton.style.display = 'inline-block';
+        goBackButton.style.display = 'inline-block';
+        clearScoreButton.style.display = 'inline-block'; 
     }
+    //otherwise 
     else{
+        //document.getElementById("next").disabled = false;
+        startButton.style.display = 'none'; 
+        previousButton.style.display = 'inline-block';
         nextButton.style.display = 'inline-block';
         submitButton.style.display = 'none';
+        //startButton.style.display ='none'
+
     }
     showResults(); 
 }
@@ -146,43 +164,48 @@ function showPreviousSlide() {
 
 const quizQuestions = [
     {
-        question: "Who invented JavaScript?",
+        question: "Javascript is an _______ language?",
         answers: {
-        a: "Douglas Crockford",
-        b: "Sheryl Sandberg",
-        c: "Brendan Eich"
+        a: "Object Oriented",
+        b: "Procedural",
+        c: "Object Based", 
+        d: "None of the above"
         },
-        correctAnswer: "c",
+        correctAnswer: "a",
         questionNum: 1
     },
     {
-        question: "Which one of these is a JavaScript package manager?",
+        question: "How can a datatype be declared to be a constant type?",
         answers: {
-        a: "Node.js",
-        b: "TypeScript",
-        c: "npm"
+        a: "int",
+        b: "var",
+        c: "const",
+        d: "char"
         },
         correctAnswer: "c",
         questionNum: 2
     },
     {
-        question: "Which tool can you use to ensure code quality?",
+        question: "Which of the following methods is used to access HTML elements using Javascript?",
         answers: {
-        a: "Angular",
-        b: "jQuery",
-        c: "RequireJS",
+        a: "getElementById()",
+        b: "getElement()",
+        c: "get()",
         d: "ESLint"
         },
-        correctAnswer: "d",
+        correctAnswer: "a",
         questionNum: 3
     }
 ];
+
 
 // getting HTML elements by their ID 
 const quizElement = document.getElementById('quiz');
 const resultsElement = document.getElementById('results');
 const submitButton = document.getElementById('submit');
 const submitNameButton = document.getElementById('submit-name');
+const goBackButton = document.getElementById('go-back');
+const clearScoreButton = document.getElementById('clear-score');
 
 // call the buildQuiz function to be displayed on the webpage 
 buildQuiz();

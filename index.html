@@ -20,12 +20,15 @@
         <button id="previous">Previous Question</button>
         <button id="next">Next Question</button>
         <button id="submit">Submit Quiz</button>
-        <button onclick ="myScore()" id="submit-name">Submit Name</button>
-        <p id="demo"></p>
-        <form method="POST">
-            <input type="text" id="tt" placeholder="Enter Name : ">
-            <input type="checkbox" checked>
-        </form>
+        <button id="go-back" onclick="document.location.reload(true)">Go Back</button>
+        <button id="clear-score" onclick= "clearHighScore()">Clear High Score</button>
+        <div> 
+            <form method="POST">
+                <input class="inline" type="text" id="tt" placeholder="Enter Name ">
+            </form>
+            <button onclick ="myScore()" id="submit-name">Submit Name</button>
+            <p id="demo"></p>
+        </div>
         <div id="results"></div>
         <script src="assets/js/script.js"></script>
     </body>

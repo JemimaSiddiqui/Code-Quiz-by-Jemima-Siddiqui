@@ -30,9 +30,9 @@ h1{
   margin-bottom: 10px;
 }
 button{
-  font-family: 'Work Sans', sans-serif;
+    font-family: 'Work Sans', sans-serif;
 	font-size: 22px;
-	background-color: #279;
+	background-color: lightpink;
 	color: #fff;
 	border: 0px;
 	border-radius: 3px;
@@ -41,7 +41,7 @@ button{
 	margin-bottom: 20px;
 }
 button:hover{
-	background-color: #38a;
+	background-color: rgb(236, 136, 198);
 }
 
 .slide{
@@ -63,7 +63,23 @@ button:hover{
   margin-top: 40px;
 }
 
-.intro-container{
-    background-color: yellow;
+/*.input-field{ 
+    display: none; 
 }
 
+#submit:check + .input-field {
+    display: block;
+}*/ 
+.inline {
+    display: inline-flex;
+}
+
+#submit-name{ 
+    margin-top: 20px; 
+    height: 50px; 
+    width: 100px; 
+    font-size: 14px; 
+    text-align: center;
+    vertical-align: middle;
+    padding: 0px; 
+}
