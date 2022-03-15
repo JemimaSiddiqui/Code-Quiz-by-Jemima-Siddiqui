@@ -32,10 +32,14 @@ function startTimer(){
 }
 
 function myScore() { 
+    submitNameButton.style.display = 'none'; 
+    goBackButton.style.display = 'inline-block';
+    clearScoreButton.style.display = 'inline-block'; 
     var myQuizScore = localStorage.getItem("myQuizScore");
     var numQuestions = localStorage.getItem("numQuestions");
     var x = document.getElementById("tt").value;
-    document.getElementById("demo").textContent = x + ", your score is: " + myQuizScore + " out of " + numQuestions;
+    document.getElementById("demo").textContent = x + ", your final score is: " + myQuizScore + " out of " + numQuestions;
+    inputText.style.display = 'none';
 }
 
 function clearHighScore() {
@@ -82,7 +86,8 @@ function buildQuiz(){
     // finally combine our output list into one string of HTML and put it on the page
     quizElement.innerHTML = output.join('');
 }
-    
+ 
+var tempCount = 0; 
 function showResults(){
 
     const quizElement = document.getElementById('quiz');
@@ -91,13 +96,12 @@ function showResults(){
 
     // keep track of user's answers
     var numCorrect = 0;
+    var numIncorrect = 0; 
 
     // for each question...
     quizQuestions.forEach((currentQuestion, questionNumber) => {
 
-        resultsElement.innerHTML = ' ';
-
-        var incorrectCount = 0; 
+        resultsElement.innerHTML = ' '; 
 
         // find selected answer
         const answerContainer = answerContainers[questionNumber];
@@ -112,30 +116,37 @@ function showResults(){
            
         }
         // if answer is wrong or blank
-        else {
-            incorrectCount++; 
-            console.log(incorrectCount); 
-            localStorage.setItem("checkIncorrect", incorrectCount);
+        else if (userAnswer !== currentQuestion.correctAnswer) {
+            numIncorrect++; 
+            //console.log(incorrectCount); 
+            //localStorage.setItem("checkIncorrect", incorrectCount);
         }
-        resultsElement.textContent = `Score: ${numCorrect} out of ${quizQuestions.length}`;
+        //resultsElement.textContent = `Score: ${numCorrect} out of ${quizQuestions.length}`;
     });
-
-    if (questionNumber === quizQuestions.length){
-        newPage(); 
-    }
 
     localStorage.setItem("myQuizScore", numCorrect); 
     localStorage.setItem("numQuestions", quizQuestions.length); 
-    //resultsElement.textContent = `Score: ${numCorrect} out of ${quizQuestions.length}`;
+    resultsElement.textContent = "Score: " + numCorrect + " out of " + quizQuestions.length; 
 
-    
+    if (questionNumber === quizQuestions.length-1){
+        tempCount++; 
+        if (tempCount === 2){
+            resultsElement.textContent = " "; 
+            newPage(); 
+
+        } 
+    }  
 }
 
 function newPage() { 
+    inputText.style.display = 'inline-block';
+    submitNameButton.style.display = 'inline-block'; 
+    //goBackButton.style.display = 'inline-block';
+    //clearScoreButton.style.display = 'inline-block'; 
     quizElement.innerHTML = " "; 
     submitButton.style.display = 'none';
     previousButton.style.display = 'none';
-    resultsElement.textContent = "Score: " + myQuizScore + " / " + numQuestions; 
+    //resultsElement.textContent = "Score: " + myQuizScore + " / " + numQuestions; 
 }
   
 function showSlide(n) {
@@ -159,11 +170,11 @@ function showSlide(n) {
     else if(currentSlide === slides.length-1){
         startButton.style.display = 'none'; 
         nextButton.style.display = 'none';
-        submitNameButton.style.display = 'inline-block'
+        //submitNameButton.style.display = 'inline-block'
         submitButton.style.display = 'inline-block';
-        goBackButton.style.display = 'inline-block';
-        clearScoreButton.style.display = 'inline-block'; 
-        inputText.style.display = 'inline-block';
+        //goBackButton.style.display = 'inline-block';
+        //clearScoreButton.style.display = 'inline-block'; 
+        //inputText.style.display = 'inline-block';
     }
     //otherwise 
     else{
@@ -257,7 +268,7 @@ startQuiz();
 startButton.addEventListener('click', startTimer); 
 previousButton.addEventListener("click", showPreviousSlide);
 nextButton.addEventListener("click", showNextSlide);
-submitButton.addEventListener('click', newPage);
+submitButton.addEventListener('click', showResults);
 
 
 
