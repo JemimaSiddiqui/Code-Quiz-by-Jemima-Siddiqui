@@ -1,25 +1,34 @@
 
 function startTimer(){ 
-    var time = 15; 
-    localStorage.setItem("timeLeft", time); 
-    
-        var downloadTimer = setInterval(function function1(){
-        document.getElementById("countdown").textContent = timeleft + " " + "seconds remaining";
-    
-        timeleft -= 1;
-        if(timeleft <= 0){
-            clearInterval(downloadTimer);
-            document.getElementById("countdown").textContent = "Time is up!"
-        }
-        }, 1000);
+    var checkIncorrectCount = localStorage.getItem("checkIncorrect"); 
+    var timeleft = 50; 
 
-        document.getElementById('submit').addEventListener("click", function() {
-            clearInterval(downloadTimer);
-            document.getElementById("countdown").textContent = "Thank you for submitting the quiz!"
-        } ); 
+    var downloadTimer = setInterval(function function1(){
+    document.getElementById("countdown").textContent = timeleft + " " + "seconds remaining";
+
+    console.log(checkIncorrectCount); 
+    if (checkIncorrectCount > 1){
+        console.log("what"); 
+        timeleft -= 15;
+        checkIncorrectCount = 0; 
+    }
+    else { 
+        timeleft -= 1;
+    }
     
-        console.log(countdown);
-        showNextSlide(); 
+    if(timeleft <= 0){
+        clearInterval(downloadTimer);
+        document.getElementById("countdown").textContent = "Time is up!"
+    }
+    }, 1000);
+
+    document.getElementById('submit').addEventListener("click", function() {
+        clearInterval(downloadTimer);
+        document.getElementById("countdown").textContent = "Thank you for submitting the quiz!"
+    } ); 
+
+    console.log(countdown);
+    showNextSlide(); 
 }
 
 function myScore() { 
@@ -31,6 +40,7 @@ function myScore() {
 
 function clearHighScore() {
     document.getElementById("demo").textContent = " ";
+    resultsElement.textContent = " ";
 }
 
 // to build the quiz that is displayed to the user 
@@ -75,6 +85,7 @@ function buildQuiz(){
     
 function showResults(){
 
+    const quizElement = document.getElementById('quiz');
     // gather answer containers from our quiz
     const answerContainers = quizElement.querySelectorAll('.answers');
 
@@ -82,9 +93,12 @@ function showResults(){
     var numCorrect = 0;
 
     // for each question...
-    quizQuestions.forEach( (currentQuestion, questionNumber) => {
+    quizQuestions.forEach((currentQuestion, questionNumber) => {
 
         resultsElement.innerHTML = ' ';
+
+        var incorrectCount = 0; 
+
         // find selected answer
         const answerContainer = answerContainers[questionNumber];
         const selector = `input[name=question${questionNumber}]:checked`;
@@ -95,23 +109,35 @@ function showResults(){
             // add to the number of correct answers
             numCorrect++;
             //resultsElement.textContent = 'correct'; 
+           
         }
         // if answer is wrong or blank
-        else if (userAnswer !== currentQuestion.correctAnswer){
-            //resultsElement.textContent = 'incorrect'; 
-            /*var timeLeft = localStorage.getItem("timeLeft"); 
-            timeLeft = timeLeft - 2; 
-            startTimer(timeLeft);*/ 
+        else {
+            incorrectCount++; 
+            console.log(incorrectCount); 
+            localStorage.setItem("checkIncorrect", incorrectCount);
         }
+        resultsElement.textContent = `Score: ${numCorrect} out of ${quizQuestions.length}`;
     });
 
+    if (questionNumber === quizQuestions.length){
+        newPage(); 
+    }
 
     localStorage.setItem("myQuizScore", numCorrect); 
     localStorage.setItem("numQuestions", quizQuestions.length); 
-    resultsElement.textContent = `Score: ${numCorrect} out of ${quizQuestions.length}`;
+    //resultsElement.textContent = `Score: ${numCorrect} out of ${quizQuestions.length}`;
+
+    
 }
 
-   
+function newPage() { 
+    quizElement.innerHTML = " "; 
+    submitButton.style.display = 'none';
+    previousButton.style.display = 'none';
+    resultsElement.textContent = "Score: " + myQuizScore + " / " + numQuestions; 
+}
+  
 function showSlide(n) {
     questionNumber = n-1; 
     slides[currentSlide].classList.remove('active-slide');
@@ -126,6 +152,8 @@ function showSlide(n) {
         submitButton.style.display = 'none'; 
         goBackButton.style.display = 'none'; 
         clearScoreButton.style.display = 'none'; 
+        inputText.style.display = 'none'; 
+        resultsElement.style.display = 'none'; 
     }
     //last slide 
     else if(currentSlide === slides.length-1){
@@ -135,16 +163,15 @@ function showSlide(n) {
         submitButton.style.display = 'inline-block';
         goBackButton.style.display = 'inline-block';
         clearScoreButton.style.display = 'inline-block'; 
+        inputText.style.display = 'inline-block';
     }
     //otherwise 
     else{
-        //document.getElementById("next").disabled = false;
         startButton.style.display = 'none'; 
         previousButton.style.display = 'inline-block';
         nextButton.style.display = 'inline-block';
         submitButton.style.display = 'none';
-        //startButton.style.display ='none'
-
+        resultsElement.style.display = 'inline-block'; 
     }
     showResults(); 
 }
@@ -160,6 +187,11 @@ function showNextSlide() {
 
 function showPreviousSlide() {
     showSlide(currentSlide - 1);
+}
+
+function clear() {
+    resultsElement.innerHTML = " "; 
+    quizElement.innerHTML = " ";
 }
 
 const quizQuestions = [
@@ -196,10 +228,11 @@ const quizQuestions = [
         correctAnswer: "a",
         questionNum: 3
     }
-];
+]; 
 
 
 // getting HTML elements by their ID 
+const inputText = document.getElementById('tt'); 
 const quizElement = document.getElementById('quiz');
 const resultsElement = document.getElementById('results');
 const submitButton = document.getElementById('submit');
@@ -224,5 +257,7 @@ startQuiz();
 startButton.addEventListener('click', startTimer); 
 previousButton.addEventListener("click", showPreviousSlide);
 nextButton.addEventListener("click", showNextSlide);
-submitButton.addEventListener('click', showResults);
+submitButton.addEventListener('click', newPage);
+
+
 

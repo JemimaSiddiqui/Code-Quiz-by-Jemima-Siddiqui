@@ -83,3 +83,7 @@ button:hover{
     vertical-align: middle;
     padding: 0px; 
 }
+
+.display-block{
+    display: block; 
+}
