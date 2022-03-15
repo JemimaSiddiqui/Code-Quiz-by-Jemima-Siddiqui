@@ -1,7 +1,7 @@
 
 function startTimer(){ 
     var checkIncorrectCount = localStorage.getItem("checkIncorrect"); 
-    var timeleft = 50; 
+    var timeleft = 10; 
 
     var downloadTimer = setInterval(function function1(){
     document.getElementById("countdown").textContent = timeleft + " " + "seconds remaining";
@@ -19,6 +19,8 @@ function startTimer(){
     if(timeleft <= 0){
         clearInterval(downloadTimer);
         document.getElementById("countdown").textContent = "Time is up!"
+        //showResults(); 
+        newPage();
     }
     }, 1000);
 
@@ -139,6 +141,7 @@ function showResults(){
 }
 
 function newPage() { 
+    resultsElement.textContent = " ";
     inputText.style.display = 'inline-block';
     submitNameButton.style.display = 'inline-block'; 
     //goBackButton.style.display = 'inline-block';
@@ -146,6 +149,7 @@ function newPage() {
     quizElement.innerHTML = " "; 
     submitButton.style.display = 'none';
     previousButton.style.display = 'none';
+    nextButton.style.display = 'none'
     //resultsElement.textContent = "Score: " + myQuizScore + " / " + numQuestions; 
 }
   
