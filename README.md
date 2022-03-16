@@ -2,9 +2,9 @@
 
 Homework Assignment for Week 4 by Jemima Siddiqui. 
 
-# 03 About the Project - Code Quiz
+# 04 About the Project - Code Quiz
 
-The Code Quiz project consists of a quiz which has a series of questions for the user to answer. The user is first presented with a start/homepage, in which they can click the "Start" button to start the quiz. Once they click on this button, a timer starts and they are presented with a series of questions (one question per page) which they can answer using multiple choice answers. They can also navigate to previous and next pages on the quiz. Once they submit the quiz, they are required to enter their name into an input box to see their final score. They can then clear their score, or navigate back to the start/homepage to redo the quiz. 
+The Code Quiz project consists of a quiz which has a series of questions for the user to answer. The user is first presented with a start/homepage, in which they can click the "Start" button to start the quiz. Once they click on this button, a timer starts and they are presented with a series of questions (one question per page) which they can answer using multiple choice answers. They can also navigate to previous and next pages on the quiz. Once they submit the quiz, they are required to enter their initials into an input box to see their final score. They can then clear their score, or navigate back to the start/homepage to redo the quiz. 
 
 ![Code quiz application.](./assets/images/start-page.png)
 
@@ -21,15 +21,15 @@ The Code Quiz application fulfills the following acceptance criteria:
 ### Viewing the homepage 
 
 In order to access the Code Quiz application, navigate to the following link: 
- [Code quiz page](). 
+ [Code quiz page](https://jemimasiddiqui.github.io/Code-Quiz-by-Jemima-Siddiqui/). 
 
 ### Downloading Visual Studio Code 
 
- Download the latest version of Visual Studio to your local machine (Mac, Linux or Windows). Please use the following link to download the latest version of VS Code [Download VS Code](). 
+ Download the latest version of Visual Studio to your local machine (Mac, Linux or Windows). Please use the following link to download the latest version of VS Code [Download VS Code](https://code.visualstudio.com/download). 
 
 ### Pulling the repository from Git 
 
-If you would like to acess the source code (HTML, CSS and JavaScript files), please navigate to the following public Github repository [Github Repository](https://github.com/JemimaSiddiqui/Password-Generator-by-Jemima-Siddiqui.git). 
+If you would like to acess the source code (HTML, CSS and JavaScript files), please navigate to the following public Github repository [Github Repository](https://github.com/JemimaSiddiqui/Code-Quiz-by-Jemima-Siddiqui.git). 
 
 * Clone the repository to your local desktop using the following steps:
 
@@ -92,13 +92,13 @@ When on the last question, the user can then submit the quiz.
 
 ![Quiz submission page](./assets/images/submission.png)
 
-7. Input name: 
-Once the quiz is submitted, the user is presented with an input box in which they can type their name and submit name to see their final score. 
+7. Input initials: 
+Once the quiz is submitted, the user is presented with an input box in which they can type their initials and submit initials to see their final score. 
 
-![Input name](./assets/images/input-name.png)
+![Input initials](./assets/images/input-name.png)
 
 8. High score display: 
-Once the user submit their name, they are presented with their final score. They can then click on clear high score to clear the score displayed on the page, or they can click on go back to navigate to the start and redo the quiz. 
+Once the user submit their initials, they are presented with their final score. They can then click on clear high score to clear the score displayed on the page, or they can click on go back to navigate to the start and redo the quiz. 
 
 ![Final page](./assets/images/final-page.png)
 
