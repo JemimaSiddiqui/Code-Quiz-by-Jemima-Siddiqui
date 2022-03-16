@@ -1,19 +1,15 @@
-@import url(https://fonts.googleapis.com/css?family=Work+Sans:300,600);
-
 body{
-	font-size: 20px;
-	font-family: 'Work Sans', sans-serif;
-	color: #333;
-  font-weight: 300;
-  text-align: center;
-  background-color: #f8f6f0;
+    font-size: 20px;
+    font-family: 'Segoe UI';
+    font-weight: 300;
+    text-align: center;
 }
 h1{
-  font-weight: 300;
+  font-weight: 200;
   margin: 0px;
   padding: 10px;
   font-size: 20px;
-  background-color: #444;
+  background-color: rgb(223, 205, 178);
   color: #fff;
 }
 .question{
@@ -30,9 +26,9 @@ h1{
   margin-bottom: 10px;
 }
 button{
-    font-family: 'Work Sans', sans-serif;
-	font-size: 22px;
-	background-color: lightpink;
+    font-family:'Segoe UI';
+	font-size: 18px;
+	background-color: rgb(238, 149, 162);
 	color: #fff;
 	border: 0px;
 	border-radius: 3px;
@@ -41,7 +37,7 @@ button{
 	margin-bottom: 20px;
 }
 button:hover{
-	background-color: rgb(236, 136, 198);
+	background-color: rgb(241, 119, 137);
 }
 
 .slide{
@@ -51,7 +47,7 @@ button:hover{
   width: 100%;
   z-index: 1;
   opacity: 0;
-  transition: opacity 0.5s;
+  transition: opacity 0.4s; 
 }
 .active-slide{
   opacity: 1;
@@ -63,13 +59,6 @@ button:hover{
   margin-top: 40px;
 }
 
-/*.input-field{ 
-    display: none; 
-}
-
-#submit:check + .input-field {
-    display: block;
-}*/ 
 .inline {
     display: inline-flex;
 }

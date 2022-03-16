@@ -1,38 +1,5 @@
-
-function startTimer(){ 
-    var checkIncorrectCount = localStorage.getItem("checkIncorrect"); 
-    var timeleft = 10; 
-
-    var downloadTimer = setInterval(function function1(){
-    document.getElementById("countdown").textContent = timeleft + " " + "seconds remaining";
-
-    console.log(checkIncorrectCount); 
-    if (checkIncorrectCount > 1){
-        console.log("what"); 
-        timeleft -= 15;
-        checkIncorrectCount = 0; 
-    }
-    else { 
-        timeleft -= 1;
-    }
-    
-    if(timeleft <= 0){
-        clearInterval(downloadTimer);
-        document.getElementById("countdown").textContent = "Time is up!"
-        //showResults(); 
-        newPage();
-    }
-    }, 1000);
-
-    document.getElementById('submit').addEventListener("click", function() {
-        clearInterval(downloadTimer);
-        document.getElementById("countdown").textContent = "Thank you for submitting the quiz!"
-    } ); 
-
-    console.log(countdown);
-    showNextSlide(); 
-}
-
+// FUNCTIONS - LOCAL 
+// Once the user inputs their name, display their name and their score
 function myScore() { 
     submitNameButton.style.display = 'none'; 
     goBackButton.style.display = 'inline-block';
@@ -40,33 +7,34 @@ function myScore() {
     var myQuizScore = localStorage.getItem("myQuizScore");
     var numQuestions = localStorage.getItem("numQuestions");
     var x = document.getElementById("tt").value;
-    document.getElementById("demo").textContent = x + ", your final score is: " + myQuizScore + " out of " + numQuestions;
+    document.getElementById("my-score").textContent = x + ", your final score is: " + myQuizScore + " out of " + numQuestions;
     inputText.style.display = 'none';
 }
 
+// when "Clear High Score" button is clicked, clear the high score saved in the local storage 
 function clearHighScore() {
-    document.getElementById("demo").textContent = " ";
+    document.getElementById("my-score").textContent = " ";
     resultsElement.textContent = " ";
 }
 
 // to build the quiz that is displayed to the user 
 function buildQuiz(){
-    // to store the HTML output
-    const output = [];
 
+    // to store the output for the page 
+    const output = [];
     output.push(
         `<div class="slide"> 
         <div class="start-page"> </div>
         </div>`
     )
-    // for each question...
-    quizQuestions.forEach(
-        (currentQuestion, questionNumber) => {
-        // variable to store the list of possible answers
+
+    // for each question in the quizQuestions array, do the following:
+    quizQuestions.forEach((currentQuestion, questionNumber) => {
+        // variable to store the list of given answer options for each question 
         const answers = [];
-        // and for each available answer...
+        // for each answer option, do the following: 
         for(letter in currentQuestion.answers){
-            // ...add an HTML radio button
+            // add radio buttons to the quiz answer options 
             answers.push(
             `<label>
                 <input type="radio" name="question${questionNumber}" value="${letter}">
@@ -75,7 +43,7 @@ function buildQuiz(){
             </label>`
             );
         }
-        // add this question and its answers to the output
+        // add this question and its answers to the output which is displayed on the screen 
         output.push(
             `<div class="slide"> 
             <div class="question"> ${currentQuestion.question} </div>
@@ -85,74 +53,105 @@ function buildQuiz(){
         }
     );
     
-    // finally combine our output list into one string of HTML and put it on the page
+    // finally combine our output list into one string and output it on the page
     quizElement.innerHTML = output.join('');
 }
- 
+
+// creating a tempCount to access the last if statement in the function - to clear the question once the user clicks 
+// submit. Then the user is present which only an input field asking for their name. 
 var tempCount = 0; 
 function showResults(){
 
     const quizElement = document.getElementById('quiz');
-    // gather answer containers from our quiz
+    // get the answer container from our quiz array 
     const answerContainers = quizElement.querySelectorAll('.answers');
-
     // keep track of user's answers
     var numCorrect = 0;
-    var numIncorrect = 0; 
-
-    // for each question...
+    // for each question in the quizQuestions array, do the following: 
     quizQuestions.forEach((currentQuestion, questionNumber) => {
-
         resultsElement.innerHTML = ' '; 
-
-        // find selected answer
         const answerContainer = answerContainers[questionNumber];
         const selector = `input[name=question${questionNumber}]:checked`;
         const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
         // if answer is correct
         if(userAnswer === currentQuestion.correctAnswer){
-            // add to the number of correct answers
-            numCorrect++;
-            //resultsElement.textContent = 'correct'; 
-           
+            // increase the count for the number of correct answers 
+            numCorrect++;  
         }
-        // if answer is wrong or blank
+        // if answer is wrong or blank (does not fully work :( )
         else if (userAnswer !== currentQuestion.correctAnswer) {
-            numIncorrect++; 
-            //console.log(incorrectCount); 
-            //localStorage.setItem("checkIncorrect", incorrectCount);
+            //console.log("hmmmm"); 
+            //localStorage.setItem("incorrectCount", 0);   
         }
-        //resultsElement.textContent = `Score: ${numCorrect} out of ${quizQuestions.length}`;
     });
 
+    // store the user's score and the number of questions in local storafe
     localStorage.setItem("myQuizScore", numCorrect); 
     localStorage.setItem("numQuestions", quizQuestions.length); 
     resultsElement.textContent = "Score: " + numCorrect + " out of " + quizQuestions.length; 
 
+    // if the user is on the last question page, refresh the page to allow the user to add their name 
+    // and see their score
     if (questionNumber === quizQuestions.length-1){
         tempCount++; 
         if (tempCount === 2){
-            resultsElement.textContent = " "; 
             newPage(); 
 
         } 
     }  
 }
 
+// start the time once the user clicks "start" amd wants to start the quiz 
+function startTimer(){ 
+    var timeleft = 50; 
+
+    var quizTimer = setInterval(function function1(){
+    document.getElementById("countdown").textContent = timeleft + " " + "seconds remaining";
+    var incorrectCheck = localStorage.getItem("incorrectCount"); 
+
+    // Time subtraction does not fully work :( 
+    var tempCount2 = 1;
+    console.log(incorrectCheck); 
+    if (incorrectCheck === '0'){
+        timeleft -= 1;
+        tempCount2 = 0; 
+    }
+    else { 
+        timeleft -= 1;
+    }
+    
+    if(timeleft <= 0){
+        clearInterval(quizTimer);
+        document.getElementById("countdown").textContent = "Time is up!"
+        newPage();
+    }
+    }, 1000);
+
+    document.getElementById('submit').addEventListener("click", function() {
+        clearInterval(quizTimer);
+        document.getElementById("countdown").textContent = "Thank you for submitting the quiz!"
+    } ); 
+
+    console.log(countdown);
+    // once the start button is clicked and timer is started, make the user go to the first page 
+    // of the quiz
+    showNextPage(); 
+}
+
+// When the user clicks on submit for the quiz, a new page appears asking for their name to be 
+// inputted
 function newPage() { 
     resultsElement.textContent = " ";
     inputText.style.display = 'inline-block';
     submitNameButton.style.display = 'inline-block'; 
-    //goBackButton.style.display = 'inline-block';
-    //clearScoreButton.style.display = 'inline-block'; 
     quizElement.innerHTML = " "; 
     submitButton.style.display = 'none';
     previousButton.style.display = 'none';
     nextButton.style.display = 'none'
-    //resultsElement.textContent = "Score: " + myQuizScore + " / " + numQuestions; 
 }
-  
+
+// show whichever slide/page the user is on based on the button they click (next or previous) and 
+// the page they are on 
 function showSlide(n) {
     questionNumber = n-1; 
     slides[currentSlide].classList.remove('active-slide');
@@ -160,7 +159,6 @@ function showSlide(n) {
     currentSlide = n;
     // first slide 
     if(currentSlide === 0){
-        //document.getElementById("next").disabled = true;
         nextButton.style.display = 'none'; 
         previousButton.style.display = 'none';
         submitNameButton.style.display = 'none'; 
@@ -174,11 +172,7 @@ function showSlide(n) {
     else if(currentSlide === slides.length-1){
         startButton.style.display = 'none'; 
         nextButton.style.display = 'none';
-        //submitNameButton.style.display = 'inline-block'
         submitButton.style.display = 'inline-block';
-        //goBackButton.style.display = 'inline-block';
-        //clearScoreButton.style.display = 'inline-block'; 
-        //inputText.style.display = 'inline-block';
     }
     //otherwise 
     else{
@@ -188,27 +182,30 @@ function showSlide(n) {
         submitButton.style.display = 'none';
         resultsElement.style.display = 'inline-block'; 
     }
+
+    // show results at every page to show the user whether they got the question right 
+    // or wrong (except for the final question)
     showResults(); 
 }
 
+// start the quiz - page = 0 
 function startQuiz() {
     var currentSlide = 0; 
     showSlide(currentSlide); 
 }
 
-function showNextSlide() {
+// show next page when the next button is clicked 
+function showNextPage() {
     showSlide(currentSlide + 1);
 }
 
-function showPreviousSlide() {
+// show previous page when the previous button is clicked 
+function showPreviousPage() {
     showSlide(currentSlide - 1);
 }
 
-function clear() {
-    resultsElement.innerHTML = " "; 
-    quizElement.innerHTML = " ";
-}
-
+// GLOBAL 
+// array of quiz questions, answer options and the correct answer 
 const quizQuestions = [
     {
         question: "Javascript is an _______ language?",
@@ -245,7 +242,6 @@ const quizQuestions = [
     }
 ]; 
 
-
 // getting HTML elements by their ID 
 const inputText = document.getElementById('tt'); 
 const quizElement = document.getElementById('quiz');
@@ -258,7 +254,7 @@ const clearScoreButton = document.getElementById('clear-score');
 // call the buildQuiz function to be displayed on the webpage 
 buildQuiz();
 
-// Pagination
+// pagination - moving from one page to the other using the provided buttons 
 const startButton = document.getElementById("start")
 const previousButton = document.getElementById("previous");
 const nextButton = document.getElementById("next");
@@ -268,10 +264,10 @@ var currentSlide = 0;
 // start the quiz
 startQuiz(); 
 
-// Event listeners
+// event listeners for the buttons on the page 
 startButton.addEventListener('click', startTimer); 
-previousButton.addEventListener("click", showPreviousSlide);
-nextButton.addEventListener("click", showNextSlide);
+previousButton.addEventListener("click", showPreviousPage);
+nextButton.addEventListener("click", showNextPage);
 submitButton.addEventListener('click', showResults);
 
 
